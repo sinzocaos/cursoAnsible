@@ -1,0 +1,16 @@
+- hosts: all #alias grupo
+#opciones de conexion
+  remote_user: root
+  #tareas
+  tasks:
+    name: Update paquetes
+    apt: update_cache=yes
+    
+    name: Upgrade paquetes
+    apt: upgrade=yes   
+    
+    name: creación de usuario
+    user:
+      name: oscarC
+      comment: usuario oscar
+    
