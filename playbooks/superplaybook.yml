@@ -1,0 +1,8 @@
+---
+- hosts: ubuntu01 #contra quien opero
+  remote_user: root #con que usuario entro
+  order: inventory #reverse_inventory | sorted | reverse_sorted | shuffle (lo hace secuencial de 5 een 5)
+  tasks: #comenzamos a definir tareas
+    - name: Mi primera tarea #aqui empieza la una tarea
+      debug:
+       msg: Hola, voy a comenzar una tarea

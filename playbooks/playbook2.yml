@@ -13,4 +13,6 @@
       user:
         name: oscarC
         comment: usuario oscar
+        password: password
+        
     
