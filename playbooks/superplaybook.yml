@@ -47,8 +47,20 @@
        msg: "Me ejecuto normalmente"
       changed_when: True
       notify: mievento
-      
-  handlers: #esto se utiliza cuando la tarea que llama realiza una accion, por lo que si no hace un change, no saltan.
+    
+    - name: Mi tarea explosiva #una tarea que explota
+      shell:
+        cmd: umane
+      #ignore_errors: True
+      failed_when: explosiva.rc > 200
+      register: explosiva #registra la salida en una variable
+    
+    - name: Otra tarea
+      debug:
+        msg: "{{ explosiva.stdout }}"
+      when: explosiva.rc == 0
+        
+  handlers: #esto se utiliza cuando la tarea que llama realiza una accion, por lo que si no hace un change, no saltan. son tareas ejecutadas cuando otra las llama.
     #una tarea opcional
     - name: tarea opcional
       debug:
