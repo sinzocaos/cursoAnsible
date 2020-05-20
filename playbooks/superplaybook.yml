@@ -81,7 +81,7 @@
           
     - name: listar procesadores
       debug:
-        msg: "Veamos las CPUs: {{ item }}"
+        msg: "Veamos las CPUs: {{ item | upper }}"
       loop: "{{ansible_facts.processor}}"
       loop_control:
         index_var: cpus
