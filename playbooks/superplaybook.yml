@@ -51,15 +51,42 @@
     - name: Mi tarea explosiva #una tarea que explota
       shell:
         cmd: umane
-      #ignore_errors: True
-      failed_when: explosiva.rc > 200
+      ignore_errors: True
+      failed_when: explosiva.rc > 100
       register: explosiva #registra la salida en una variable
     
     - name: Otra tarea
       debug:
         msg: "{{ explosiva.stdout }}"
       when: explosiva.rc == 0
-        
+      
+    #tarea comprobadora
+    - name: una tarea que comprueba un texto
+      debug:
+        msg: la salida de error de la tarea explosiva contiene 'not found'
+      #when: "'found' not in explosiva.stderr"
+      #when: explosiva.stderr is match(".*not.*")
+      when: explosiva.stderr is search(".*not.*")
+      
+    # nuestra primera tarea en bucle!!  
+    - name: primer bucle
+      debug:
+        msg: "Ahora voy a hacer algo con el puerto: {{ item }}"
+      loop: "{{ puertos }}"
+      vars:
+        puertos:
+          - 80
+          - 81
+          - 83
+          
+    - name: listar procesadores
+      debug:
+        msg: "Veamos las CPUs: {{ item }}"
+      loop: "{{ansible_facts.processor}}"
+      loop_control:
+        index_var: cpus
+      when: (cpus+1) % 3 == 0
+      
   handlers: #esto se utiliza cuando la tarea que llama realiza una accion, por lo que si no hace un change, no saltan. son tareas ejecutadas cuando otra las llama.
     #una tarea opcional
     - name: tarea opcional
