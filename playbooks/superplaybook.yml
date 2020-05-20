@@ -2,7 +2,60 @@
 - hosts: ubuntu01 #contra quien opero
   remote_user: root #con que usuario entro
   order: inventory #reverse_inventory | sorted | reverse_sorted | shuffle (lo hace secuencial de 5 een 5)
+  vars: #variables
+    variable1: hola amigo
+    variable2: 22
+    variable3: 
+      subvalor1: 1
+      subvalor2: 2
   tasks: #comenzamos a definir tareas
-    - name: Mi primera tarea #aqui empieza la una tarea
+    - name: Mi primera tarea #aqui empieza la primera tarea
       debug:
-       msg: Hola, voy a comenzar una tarea
+       msg: "{{ variable1 }}, voy a comenzar una tarea"
+    - name: Mi segunda tarea #aqui empieza otra tarea
+      debug: #unsafe permite escribir un texto literal sin variable
+       msg: !unsafe "El ninja va todo con dobles llaves {{ aqui va mi variable }}"
+    - name: Mi tercera tarea #aqui empieza otra tarea
+      debug: 
+       msg: "{{ variable1 }}, voy a comenzar la tarea {{ numerotarea }}, en el servidor {{ sistema }} {{ sistema2 }}"
+      vars: #puedo definir variables a nivel de tarea
+       numerotarea: 3
+    - name: Mi cuarta tarea #aqui empieza otra tarea
+      debug:
+       msg: "Valores del diccionario {{ variable3.subvalor2 }}"
+    - name: Mi tarea de facts #aqui empieza otra tarea para obtener facts
+      debug:
+       #msg: "{{ ansible_facts }}"
+       var: ansible_facts
+  
+  #mi primera tarea condicional
+    - name: Mi tarea condicional
+      debug:
+       msg: "He entrado!!!!!!"
+      when: 
+        - ansible_facts.distribution == 'Ubuntu'
+        - variable2 == 22
+    #una tarea normalita
+    - name: Mi tarea normalita
+      debug:
+       msg: "Me ejecuto normalmente"
+      changed_when: True
+      notify: tarea opcional #esto es para llamar a otra tarea, en este caso cuando haga change, saltará a la tarea opcional
+      
+    - name: Mi tarea normalita 2
+      debug:
+       msg: "Me ejecuto normalmente"
+      changed_when: True
+      notify: mievento
+      
+  handlers: #esto se utiliza cuando la tarea que llama realiza una accion, por lo que si no hace un change, no saltan.
+    #una tarea opcional
+    - name: tarea opcional
+      debug:
+       msg: "Me ejecuto opcionalmente"
+      listen: mievento
+      
+    - name: tarea opcional 2
+      debug:
+       msg: "Me ejecuto opcionalmente"
+      listen: mievento
