@@ -1,10 +1,10 @@
 - hosts: ubuntu01
   remote_user: root
   
-  var:
+  vars:
    nginx_port: 81
    nginx_server: ubuntu01
    nginx_web_path: /web
-  
+   
   roles:
     - nginx
