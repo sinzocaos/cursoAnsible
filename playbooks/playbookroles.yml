@@ -1,16 +1,6 @@
-- hosts: all #alias grupo
+- hosts: ubuntu01 #alias grupo
 #opciones de conexion
   remote_user: root
-  #tareas
-  tasks:
-  
-   - name: Que no esté nano
-     apt: name=nano state=absent
-     
-   - name: vim install
-     apt: name=vim state=present   
-   - name: nginx install
-     apt: name=nginx state=present
-     
-   - name: curl install
-     apt: name=curl state=present
+  #roles
+  roles:
+   - test
