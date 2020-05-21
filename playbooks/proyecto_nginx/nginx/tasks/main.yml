@@ -1,32 +1,4 @@
 ---
-# tasks file for nginx
-- name: tarea preinstalacion 1 # actualizar apt
-  apt:
-    update_cache: yes
-  
-- name: tarea preinstalacion 2 # instalar curl
-  apt: 
-    name: curl
-    state: latest
-    
-- name: tarea preinstalacion 3 # instalar git
-  apt: 
-    name: git
-    state: latest
-    
-- name: tarea instalacion 1 # instalar nginx con apt
-  apt: 
-    name: nginx
-    state: latest
-  
-- name: tarea postinstalacion 1 # copiar la configuracion de nginx
-  template: 
-    src: templates/minginx.conf
-    dest: /etc/nginx/conf.d/minginx.conf
-    mode: '0400'
-  notify: nginx_instalado
-  
-- name: tarea postinstalacion 2 # clonar el web
-  git:
-    repo: 'https://github.com/sinzocaos/webEjemploAnsible.git'
-    dest: "{{nginx_web_path}}"
+##tareas del rol ninx
+- import_tasks: instalaciones.yml
+- import_tasks: comprobacion.yml
