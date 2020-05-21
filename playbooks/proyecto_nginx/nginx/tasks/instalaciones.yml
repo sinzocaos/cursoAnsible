@@ -28,7 +28,7 @@
   
 - name: tarea postinstalacion 2 # clonar el web
   git:
-    repo: 'https://github.com/sinzocaos/webEjemploAnsible.git'
+    repo: 'https://sinzocaos:{{password_github}}@github.com/sinzocaos/webEjemploAnsible.git'
     dest: "{{nginx_web_path}}"
     
 - name: tarea posinstalacion 3     # iniciar servicio nginx
