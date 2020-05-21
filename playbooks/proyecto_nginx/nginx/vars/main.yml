@@ -1,2 +1,5 @@
 ---
 # vars file for nginx
+nginx_port: 81
+nginx_server: ubuntu01
+nginx_web_path: /web
