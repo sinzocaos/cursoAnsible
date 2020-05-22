@@ -87,6 +87,32 @@
         index_var: cpus
       when: (cpus+1) % 3 == 0
       
+    - name: algo
+      debug:
+        msg: "Hola k ase"
+      tags:
+        - instalaciones
+        - preparacion
+        
+    - name: varias tareas a ejecutar de golpe
+      block:
+        - name: primera tarea del bloque
+          debug:
+            msg: "Hola k ase"
+        
+        - name: segunda tarea del bloque
+          debug:
+            msg: "y tu k ase"
+      
+      rescue:
+        - name: tarea de rescate, en caso de que se produzca un error en la de dentro del block
+          debug:
+            msg: "Hola k ase"
+      always:
+        - name: Tarea que se va a ejecutar despues del block y/o despues del rescue
+          debug:
+            msg: "Hola k ase"
+      
   handlers: #esto se utiliza cuando la tarea que llama realiza una accion, por lo que si no hace un change, no saltan. son tareas ejecutadas cuando otra las llama.
     #una tarea opcional
     - name: tarea opcional
@@ -98,3 +124,5 @@
       debug:
        msg: "Me ejecuto opcionalmente"
       listen: mievento
+      
+    
